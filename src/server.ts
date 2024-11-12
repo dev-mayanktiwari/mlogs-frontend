@@ -11,7 +11,6 @@ const server = app.listen(AppConfig.get("PORT") || 3000, () => {
   });
 });
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
 (() => {
   try {
     // const connection = await databaseService.connect();

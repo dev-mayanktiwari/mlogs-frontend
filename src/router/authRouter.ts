@@ -3,6 +3,7 @@ import adminAuthController from "../controller/adminAuthController";
 const authRouter = Router();
 
 authRouter.route("/login").post(adminAuthController.login);
-//authRouter.route("/logout").get(adminAuthController.logout);
+authRouter.route("/logout").put(adminAuthController.logout);
 
 export default authRouter;
+

@@ -41,38 +41,42 @@ export default {
         AppConfig.get("ACCESS_TOKEN_EXPIRY") as string
       );
 
-      const refreshToken = quicker.generateToken(
-        {
-          username: parsed.data.username
-        },
-        AppConfig.get("REFRESH_TOKEN_SECRET") as string,
-        AppConfig.get("REFRESH_TOKEN_EXPIRY") as string
-      );
-
       // Set Cookie
-      res
-        .cookie("accessToken", accessToken, {
-          path: "/api/v1/admin",
-          domain: AppConfig.get("DOMAIN") as string,
-          sameSite: "strict",
-          httpOnly: true,
-          secure: !(AppConfig.get("ENV") === "development"),
-          maxAge: AppConfig.get("ACCESS_TOKEN_EXPIRY") as number
-        })
-        .cookie("refreshToken", refreshToken, {
-          path: "/api/v1/admin",
-          domain: AppConfig.get("DOMAIN") as string,
-          sameSite: "strict",
-          httpOnly: true,
-          secure: !(AppConfig.get("ENV") === "development"),
-          maxAge: AppConfig.get("REFRESH_TOKEN_EXPIRY") as number
-        });
+      res.cookie("accessToken", accessToken, {
+        path: "/api/v1/admin",
+        domain: AppConfig.get("DOMAIN") as string,
+        sameSite: "strict",
+        httpOnly: true,
+        secure: !(AppConfig.get("ENV") === "development"),
+        maxAge: AppConfig.get("ACCESS_TOKEN_EXPIRY") as number
+      });
 
       // Return response
       httpResponse(req, res, EResponseStatusCode.OK, EResponseMessage.LOGIN_SUCCESS, {
-        accessToken: `Bearer ${accessToken}`,
-        refreshToken: `Bearer ${refreshToken}`
+        accessToken: `Bearer ${accessToken}`
       });
+    } catch (error) {
+      httpError(next, error, req);
+    }
+  },
+
+  logout: (req: Request, res: Response, next: NextFunction) => {
+    try {
+      // Clear the cookies
+      const clearAuthCookies = () => {
+        const cookieOptions = {
+          path: "/api/v1/admin",
+          domain: AppConfig.get("DOMAIN") as string,
+          sameSite: "strict" as const,
+          httpOnly: true,
+          secure: !(AppConfig.get("ENV") === "development")
+        };
+
+        res.clearCookie("accessToken", cookieOptions);
+      };
+      clearAuthCookies();
+
+      httpResponse(req, res, EResponseStatusCode.OK, EResponseMessage.LOGOUT_SUCCESS, {});
     } catch (error) {
       httpError(next, error, req);
     }
