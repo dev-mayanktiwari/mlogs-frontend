@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dist": "npx tsc",
-    "dev": "cross-env NODE_ENV=development nodemon src/server.ts",
-    "start": "cross-env NODE_ENV=production node dist/server.js",
+    "dev": "nodemon src/server.ts",
+    "start": "node dist/server.js",
     "lint": "eslint",
     "lint:fix": "eslint  --fix",
     "format:check": "prettier --check .",
@@ -35,6 +35,7 @@
     "@types/cors": "^2.8.17",
     "@types/eslint__js": "^8.42.3",
     "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^22.7.5",
     "@types/source-map-support": "^0.5.10",
     "eslint": "^9.12.0",
@@ -53,11 +54,13 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
     "moment": "^2.30.1",
     "mongoose": "^8.7.1",
     "rate-limiter-flexible": "^5.0.3",
     "source-map-support": "^0.5.21",
     "winston": "^3.15.0",
-    "winston-mongodb": "^6.0.0"
+    "winston-mongodb": "^6.0.0",
+    "zod": "^3.23.8"
   }
 }

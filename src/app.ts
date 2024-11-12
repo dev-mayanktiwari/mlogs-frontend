@@ -1,10 +1,13 @@
 import express, { Application, NextFunction, Request, Response } from "express";
-import router from "./router/apiRouter";
+
 import cors from "cors";
 import globalErrorHandler from "./middleware/globalErrorHandler";
-import { ResponseMessage } from "./constant/responseMessage";
+
 import httpError from "./utils/httpError";
 import helmet from "helmet";
+import checkupRouter from "./router/checkupRouter";
+import authRouter from "./router/authRouter";
+import { EResponseMessage } from "./constant/responseMessage";
 
 const app: Application = express();
 
@@ -15,12 +18,13 @@ app.use(express.json({ limit: "1mb" }));
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use("/api/v1", router);
+app.use("/api/v1/admin/auth", authRouter);
+app.use("/api/v1/admin/checkup", checkupRouter);
 
 //404 Handler
 app.use((req: Request, _: Response, next: NextFunction) => {
   try {
-    throw new Error(ResponseMessage.NOT_FOUND);
+    throw new Error(EResponseMessage.NOT_FOUND);
   } catch (error) {
     httpError(next, error, req, 404);
   }
