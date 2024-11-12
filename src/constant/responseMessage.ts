@@ -1,4 +1,4 @@
-export const enum ResponseMessage {
+export const enum EResponseMessage {
   USER_CREATED = "User account created successfully.",
   DATA_RETRIEVED = "Data retrieved successfully.",
   OPERATION_COMPLETED = "Operation completed successfully.",
@@ -15,6 +15,7 @@ export const enum ResponseMessage {
   FORBIDDEN = "Forbidden request.",
   VALIDATION_ERROR = "Validation error.",
   SESSION_EXPIRED = "Session expired. Please log in again.",
-  TOO_MANY_REQUESTS = "Too many requests. Please try again later."
+  TOO_MANY_REQUESTS = "Too many requests. Please try again later.",
+  INVALID_CREDENTIALS = "Invalid credentials.",
 }
 
