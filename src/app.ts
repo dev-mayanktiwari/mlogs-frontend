@@ -20,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use("/api/v1/admin/auth", authRouter);
 app.use("/api/v1/admin/checkup", checkupRouter);
+app.use("/api/v1/admin/blog", blogRouter);
 
 //404 Handler
 app.use((req: Request, _: Response, next: NextFunction) => {
