@@ -21,3 +21,18 @@ export const logout = async () => {
   const response = await api.put("/user/auth/logout");
   return response.data.data;
 };
+
+export const postComment = async (postId: string, text: string) => {
+  const response = await api.post(`/user/blog/${postId}/comment`, { text });
+  return response.data.data;
+};
+
+export const likePost = async (postId: string) => {
+  const response = await api.put(`/user/blog/${postId}/like`);
+  return response.data.data;
+};
+
+export const unlikePost = async (postId: string) => {
+  const response = await api.put(`/user/blog/${postId}/unlike`);
+  return response.data.data;
+};
