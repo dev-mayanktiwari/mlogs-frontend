@@ -1,50 +1,35 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 type User = {
   userId: string;
   username: string;
   email: string;
   name: string;
-};
+} | null; // Allow `null` when no user is logged in
 
 type UserStore = {
-  user: User | null;
-  setUser: (user: User) => void;
+  user: User;
+  setUser: (user: NonNullable<User>) => void;
   clearUser: () => void;
 };
 
 const useUserStore = create<UserStore>()(
   persist(
     (set) => ({
-      user: {
-        userId: "",
-        username: "",
-        email: "",
-        name: "",
-      },
+      user: null, // Initialize user as `null`
       setUser: (user) =>
         set(() => ({
-          user: {
-            userId: user.userId,
-            username: user.username,
-            email: user.email,
-            name: user.name,
-          },
+          user,
         })),
       clearUser: () =>
         set(() => ({
-          user: {
-            userId: "",
-            username: "",
-            email: "",
-            name: "",
-          },
+          user: null,
         })),
     }),
     {
-      name: "user",
-      partialize: (state) => ({ user: state.user }),
+      name: 'user-storage', // Key for localStorage
+      partialize: (state) => ({ user: state.user }), // Persist only the user field
     }
   )
 );

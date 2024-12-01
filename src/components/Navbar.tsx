@@ -14,6 +14,7 @@ import useUserStore from "../store/userStore";
 
 export function Navbar() {
   const user = useUserStore((state) => state.user);
+  console.log(user);
 
   return (
     <nav className="border-b">
