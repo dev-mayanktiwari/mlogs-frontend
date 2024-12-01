@@ -1,15 +1,4 @@
-import axios from "axios";
-
-const BASEURL = "http://localhost:3000/api/v1";
-
-export const api = axios.create({
-  baseURL: BASEURL,
-  timeout: 10000,
-  headers: {
-    "Content-Type": "application/json",
-  },
-  withCredentials: true,
-});
+import api from "./apiclient";
 
 export const login = async (email: string, password: string) => {
   const response = await api.post("/user/auth/login", { email, password });
@@ -27,12 +16,24 @@ export const postComment = async (postId: string, text: string) => {
   return response.data.data;
 };
 
+export const updateComment = async (commentId: string, text: string) => {
+  const response = await api.put(`/user/blog/${commentId}/edit-comment`, {
+    text,
+  });
+  return response.data.data;
+};
+
+export const deleteComment = async (commentId: string) => {
+  const response = await api.delete(`user/blog/${commentId}/uncomment`);
+  return response.data.data;
+};
+
 export const likePost = async (postId: string) => {
-  const response = await api.put(`/user/blog/${postId}/like`);
+  const response = await api.post(`/user/blog/${postId}/like`);
   return response.data.data;
 };
 
 export const unlikePost = async (postId: string) => {
-  const response = await api.put(`/user/blog/${postId}/unlike`);
+  const response = await api.delete(`/user/blog/${postId}/unlike`);
   return response.data.data;
 };

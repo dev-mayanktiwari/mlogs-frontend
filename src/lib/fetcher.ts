@@ -1,4 +1,4 @@
-import { api } from "./api";
+import api from "./apiclient";
 
 const fetcher = async (url: string) => {
   try {
