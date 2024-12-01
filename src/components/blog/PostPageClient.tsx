@@ -1,5 +1,5 @@
 import PostContent from "@/components/blog/PostContent";
-import CommentSection from "@/components/blog/CommentSection";
+import CommentSection from "@/components/comment/CommentSection";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
