@@ -1,12 +1,6 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-
-type User = {
-  userId: string;
-  username: string;
-  email: string;
-  name: string;
-} | null; // Allow `null` when no user is logged in
+import { User } from "@/lib/types";
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 type UserStore = {
   user: User;
@@ -28,7 +22,7 @@ const useUserStore = create<UserStore>()(
         })),
     }),
     {
-      name: 'user-storage', // Key for localStorage
+      name: "user-storage", // Key for localStorage
       partialize: (state) => ({ user: state.user }), // Persist only the user field
     }
   )
