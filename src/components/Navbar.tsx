@@ -9,7 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../components/ui/dropdown-menu";
-// import { ModeToggle } from "../shared/mode-toggle";
+import { ModeToggle } from "@/components/ModeToggle";
 import useUserStore from "../store/userStore";
 
 export function Navbar() {
@@ -24,7 +24,7 @@ export function Navbar() {
         </Link>
 
         <div className="flex items-center gap-4">
-          {/* <ModeToggle /> */}
+          <ModeToggle />
 
           {user ? (
             <>
