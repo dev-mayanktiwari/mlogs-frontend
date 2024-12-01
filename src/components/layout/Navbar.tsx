@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { PenSquare, LogIn, Menu, User } from "lucide-react";
 import { User as UserType } from "@/lib/types";
@@ -12,18 +12,27 @@ import { ModeToggle } from "@/components/theme/ModeToggle";
 import useUserStore from "../../store/userStore";
 import { useState, useCallback } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
+import useLogout from "@/hooks/useLogout";
 
 type NavbarContentProps = {
-  user: UserType;
+  user: UserType | null;
   isMobile?: boolean;
   closeSheet: () => void;
+  onLogout: () => void;
 };
 
 export function Navbar() {
   const user = useUserStore((state) => state.user);
   const [isOpen, setIsOpen] = useState(false);
-
   const closeSheet = useCallback(() => setIsOpen(false), []);
+  const { logout } = useLogout();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    closeSheet();
+    navigate("/");
+  };
 
   return (
     <nav className="border-b">
@@ -37,7 +46,11 @@ export function Navbar() {
 
           {/* Desktop menu */}
           <div className="hidden md:flex items-center gap-4">
-            <NavbarContent user={user} closeSheet={closeSheet} />
+            <NavbarContent
+              user={user}
+              closeSheet={closeSheet}
+              onLogout={handleLogout}
+            />
           </div>
 
           {/* Mobile menu */}
@@ -50,7 +63,12 @@ export function Navbar() {
             </SheetTrigger>
             <SheetContent side="right">
               <nav className="flex flex-col gap-4">
-                <NavbarContent user={user} isMobile closeSheet={closeSheet} />
+                <NavbarContent
+                  user={user}
+                  isMobile
+                  closeSheet={closeSheet}
+                  onLogout={handleLogout}
+                />
               </nav>
             </SheetContent>
           </Sheet>
@@ -64,6 +82,7 @@ function NavbarContent({
   user,
   isMobile = false,
   closeSheet,
+  onLogout,
 }: NavbarContentProps) {
   return (
     <>
@@ -90,11 +109,17 @@ function NavbarContent({
           </DropdownMenuTrigger>
           <DropdownMenuContent align={isMobile ? "center" : "end"}>
             <DropdownMenuItem asChild>
-              <Link to="/profile" onClick={closeSheet}>
+              <Link
+                to="/profile/me"
+                onClick={closeSheet}
+                className="cursor-pointer"
+              >
                 Profile
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={closeSheet}>Logout</DropdownMenuItem>
+            <DropdownMenuItem onClick={onLogout} className="cursor-pointer">
+              Logout
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (

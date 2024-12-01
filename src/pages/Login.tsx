@@ -39,7 +39,7 @@ export default function LoginPage() {
         title: "Error",
         duration: 5000,
         description:
-          error.response?.data?.message || "Failed to login. Please try again.",
+          error.response?.data?.message || "Failed to logout. Please try again.",
         variant: "destructive",
       });
     } finally {
