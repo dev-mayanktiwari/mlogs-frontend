@@ -1,5 +1,12 @@
+import BlogList from "@/components/blogs/PostsList";
+
 const Home = () => {
-  return <div>Home</div>;
+  return (
+    <div>
+      Home
+      <BlogList />
+    </div>
+  );
 };
 
 export default Home;
