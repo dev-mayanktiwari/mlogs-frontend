@@ -13,7 +13,7 @@ export const logout = async () => {
 
 export const postComment = async (postId: string, text: string) => {
   const response = await api.post(`/user/blog/${postId}/comment`, { text });
-  return response.data.data;
+  return response.data;
 };
 
 export const updateComment = async (commentId: string, text: string) => {
@@ -40,7 +40,7 @@ export const unlikePost = async (postId: string) => {
 
 export const postGuestbook = async (message: string) => {
   const response = await api.post("user/blog/guestbook", { message });
-  return response.data.data;
+  return response.data;
 };
 export const register = async (
   name: string,
