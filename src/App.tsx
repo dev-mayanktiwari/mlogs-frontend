@@ -5,6 +5,7 @@ import LoginPage from "./pages/Login";
 import useUserStore from "./store/userStore";
 import Post from "./pages/Post";
 import Register from "./pages/Register";
+import { Guestbook } from "./pages/Guestbook";
 
 function App() {
   const user = useUserStore((state) => state.user);
@@ -20,6 +21,7 @@ function App() {
           path="/register"
           element={user ? <Navigate to={"/"} /> : <Register />}
         />
+        <Route path="/guestbook" element={<Guestbook />} />
         <Route path="/post/:id" element={<Post />} />
       </Routes>
     </Layout>
