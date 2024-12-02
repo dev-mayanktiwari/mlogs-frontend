@@ -1,8 +1,9 @@
+import { toast } from "@/hooks/use-toast";
+import useLogout from "@/hooks/useLogout";
 import axios from "axios";
 
 const BASEURL = "http://localhost:3000/api/v1";
 
-// Create the initial API client
 export const api = axios.create({
   baseURL: BASEURL,
   timeout: 10000,
@@ -12,58 +13,76 @@ export const api = axios.create({
   withCredentials: true,
 });
 
-// Flag to prevent multiple simultaneous refresh attempts
+// Variables to handle refresh logic
 let isRefreshing = false;
 let refreshSubscribers = [];
 
-// Add a response interceptor
+// Add a subscriber for token refresh
+const subscribeToTokenRefresh = (callback) => {
+  refreshSubscribers.push(callback);
+};
+
+// Notify all subscribers once the token has been refreshed
+const onTokenRefreshed = () => {
+  refreshSubscribers.forEach((callback) => callback());
+  refreshSubscribers = [];
+};
+
+// Axios response interceptor
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
-    // Check if the error is due to unauthorized access and it's not a retry
+    // Check if the error is 401 (Unauthorized) and not already retried
     if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true; // Mark this request as retried
+
       if (isRefreshing) {
         // If a refresh is already in progress, wait for it
         return new Promise((resolve, reject) => {
-          refreshSubscribers.push(() => {
-            resolve(api(originalRequest));
+          subscribeToTokenRefresh(() => {
+            resolve(api(originalRequest)); // Retry the original request
           });
         });
       }
 
-      // Mark that we're refreshing
+      // Start the refresh token process
       isRefreshing = true;
-      originalRequest._retry = true;
 
       try {
         // Call the refresh token endpoint
-        // Server will automatically set new access token cookie
         await api.post("/user/auth/refresh-token");
 
+        // Notify all subscribers that the token has been refreshed
+        onTokenRefreshed();
+
         // Retry the original request
-        const retryResponse = await api(originalRequest);
-
-        // Resolve all waiting requests
-        refreshSubscribers.forEach((callback) => callback());
-        refreshSubscribers = [];
-
-        return retryResponse;
+        return api(originalRequest);
       } catch (refreshError) {
-        // If refresh fails, clear subscribers and potentially logout
+        // Clear subscribers if refresh fails
         refreshSubscribers = [];
-        isRefreshing = false;
 
-        // Optional: redirect to login or dispatch a logout action
-        // window.location.href = '/login';
+        // Logout the user
+        const { logout } = useLogout();
+        logout();
 
+        // Show an error toast
+        toast({
+          title: "Session Expired",
+          description: "Please login again.",
+          variant: "destructive",
+        });
+
+        // Reject the original error
         return Promise.reject(refreshError);
       } finally {
+        // Reset the refreshing flag
         isRefreshing = false;
       }
     }
 
+    // Reject all other errors
     return Promise.reject(error);
   }
 );
