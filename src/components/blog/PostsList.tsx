@@ -46,7 +46,7 @@ export default function BlogList() {
     );
   }
 
-  if (posts.length === 0) {
+  if (blogs.length === 0) {
     return (
       <Alert>
         <AlertCircle className="h-4 w-4" />
