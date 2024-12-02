@@ -7,7 +7,7 @@ export const login = async (email: string, password: string) => {
 };
 
 export const logout = async () => {
-  const response = await api.put("/user/auth/logout");
+  const response = await api.put("/blog/fetch/logout");
   return response.data.data;
 };
 
@@ -35,5 +35,24 @@ export const likePost = async (postId: string) => {
 
 export const unlikePost = async (postId: string) => {
   const response = await api.delete(`/user/blog/${postId}/unlike`);
+  return response.data.data;
+};
+
+export const postGuestbook = async (message: string) => {
+  const response = await api.post("user/blog/guestbook", { message });
+  return response.data.data;
+};
+export const register = async (
+  name: string,
+  email: string,
+  password: string,
+  username: string
+) => {
+  const response = await api.post("/user/auth/register", {
+    name,
+    email,
+    password,
+    username,
+  });
   return response.data.data;
 };
