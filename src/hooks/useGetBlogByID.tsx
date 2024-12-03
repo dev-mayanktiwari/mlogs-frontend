@@ -2,15 +2,12 @@ import fetcher from "@/lib/fetcher";
 import useSWR from "swr";
 
 const useGetBlogByID = (id: string) => {
-  const { data, error, isLoading } = useSWR(
-    `/blog/fetch/${id}/blog`,
-    fetcher,
-    {
-      revalidateIfStale: false,
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-    }
-  );
+  const { data, error, isLoading } = useSWR(`/blog/fetch/${id}/blog`, fetcher, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+    dedupingInterval: 60 * 60 * 1000,
+  });
 
   return {
     post: data,

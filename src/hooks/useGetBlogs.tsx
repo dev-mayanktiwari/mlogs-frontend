@@ -9,6 +9,7 @@ const useGetBlogs = () => {
       revalidateIfStale: false,
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
+      dedupingInterval: 60 * 60 * 1000,
     }
   );
 
