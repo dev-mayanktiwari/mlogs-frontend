@@ -21,6 +21,7 @@ const useLikeBlog = () => {
       setError(err);
       toast({
         title: "Error",
+        duration: 5000,
         description: "Failed to like post. Please try again.",
         variant: "destructive",
       });
