@@ -39,7 +39,8 @@ export default function LoginPage() {
         title: "Error",
         duration: 5000,
         description:
-          error.response?.data?.message || "Failed to logout. Please try again.",
+          error.response?.data?.message ||
+          "Failed to logout. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -60,6 +61,9 @@ export default function LoginPage() {
         </CardHeader>
         <CardContent>
           <Login onLogin={handleLogin} isLoading={isLoading} />
+          <Link to="/forgot-password" className="text-sm text-muted-foreground pt-5">
+            Forgot password?
+          </Link>
         </CardContent>
         <CardFooter className="flex flex-col items-center gap-4">
           <p className="text-sm text-muted-foreground">

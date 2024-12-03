@@ -7,6 +7,7 @@ import Post from "./pages/Post";
 import Register from "./pages/Register";
 import { Guestbook } from "./pages/Guestbook";
 import Profile from "./pages/Profile";
+import ForgotPassword from "./pages/ForgotPassword";
 
 function App() {
   const user = useUserStore((state) => state.user);
@@ -24,8 +25,11 @@ function App() {
         />
         <Route path="/guestbook" element={<Guestbook />} />
         <Route path="/post/:id" element={<Post />} />
-
-        <Route path="/profile/me" element={user ? <Profile /> : <Navigate to="/login" />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route
+          path="/profile/me"
+          element={user ? <Profile /> : <Navigate to="/login" />}
+        />
       </Routes>
     </Layout>
   );
