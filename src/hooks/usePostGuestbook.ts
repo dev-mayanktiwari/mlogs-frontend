@@ -14,6 +14,7 @@ const usePostGuestbook = () => {
       const message = await postGuestbook(text);
       toast({
         title: "Success",
+        duration: 5000,
         description: "Message posted successfully.",
         variant: "default",
       });
@@ -22,6 +23,7 @@ const usePostGuestbook = () => {
       setError(err);
       toast({
         title: "Error",
+        duration: 5000,
         description: "Failed to post message. Please try again.",
         variant: "destructive",
       });
