@@ -20,9 +20,13 @@ const useUpdateComment = () => {
       });
     } catch (err: any) {
       setError(err);
+      const errorMessage =
+        err.response?.data?.message ||
+        "Failed to delete comment. Please try again.";
       toast({
         title: "Error",
-        description: "Failed to delete comment. Please try again.",
+        duration: 5000,
+        description: errorMessage,
         variant: "destructive",
       });
       return null;

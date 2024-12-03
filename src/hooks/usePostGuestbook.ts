@@ -21,10 +21,13 @@ const usePostGuestbook = () => {
       return message;
     } catch (err: any) {
       setError(err);
+      const errorMessage =
+        err.response?.data?.message ||
+        "Failed to post message. Please try again.";
       toast({
         title: "Error",
         duration: 5000,
-        description: "Failed to post message. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
       return null;

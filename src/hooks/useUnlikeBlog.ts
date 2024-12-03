@@ -20,10 +20,13 @@ const useUnlikeBlog = () => {
       });
     } catch (err: any) {
       setError(err);
+      const errorMessage =
+        err.response?.data?.message ||
+        "Failed to unlike post. Please try again.";
       toast({
         title: "Error",
         duration: 5000,
-        description: "Failed to unlike post. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
       return null;
