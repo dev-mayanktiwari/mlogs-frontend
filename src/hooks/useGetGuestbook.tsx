@@ -7,8 +7,6 @@ const useGetGuestbook = () => {
     fetcher,
     {
       revalidateIfStale: false,
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
       dedupingInterval: 5 * 60 * 1000,
     }
   );
