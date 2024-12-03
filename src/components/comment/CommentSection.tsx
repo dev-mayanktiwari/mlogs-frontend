@@ -50,6 +50,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
     if (!user) {
       toast({
         title: "Error",
+        duration: 5000,
         description: "Please login to add comments.",
         variant: "destructive",
       });
