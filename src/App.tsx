@@ -8,6 +8,8 @@ import Register from "./pages/Register";
 import { Guestbook } from "./pages/Guestbook";
 import Profile from "./pages/Profile";
 import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+import NotFound from "./components/notfound/NotFound";
 
 function App() {
   const user = useUserStore((state) => state.user);
@@ -30,6 +32,11 @@ function App() {
           path="/profile/me"
           element={user ? <Profile /> : <Navigate to="/login" />}
         />
+        <Route
+          path="/reset-password/:token"
+          element={user ? <Navigate to={"/"} /> : <ResetPassword />}
+        />
+        <Route path="*" element={<NotFound/>} />
       </Routes>
     </Layout>
   );

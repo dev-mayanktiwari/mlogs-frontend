@@ -9,7 +9,7 @@ const Home = () => {
             Welcome to MLOGS
           </h1>
           <p className="text-xl text-center text-muted-foreground max-w-2xl mx-auto">
-            Random thoughts, stories, and ideas of a random programmer.
+            Random thoughts, stories, and ideas of a random engineer.
           </p>
         </div>
       </section>
