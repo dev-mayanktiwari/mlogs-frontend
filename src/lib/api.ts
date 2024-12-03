@@ -81,3 +81,10 @@ export const resetPassword = async (token: string, password: string) => {
   });
   return response.data;
 };
+
+export const verifyAccount = async (token: string, code: string) => {
+  const response = await api.put(
+    `user/auth/confirmation/${token}?code=${code}`
+  );
+  return response.data;
+};
