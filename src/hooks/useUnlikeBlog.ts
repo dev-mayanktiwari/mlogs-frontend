@@ -14,6 +14,7 @@ const useUnlikeBlog = () => {
       await unlikePost(postId);
       toast({
         title: "Success",
+        duration: 5000,
         description: "Removed like successfully.",
         variant: "default",
       });
@@ -21,6 +22,7 @@ const useUnlikeBlog = () => {
       setError(err);
       toast({
         title: "Error",
+        duration: 5000,
         description: "Failed to unlike post. Please try again.",
         variant: "destructive",
       });
