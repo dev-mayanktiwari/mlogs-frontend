@@ -70,6 +70,7 @@ api.interceptors.response.use(
         // Show an error toast
         toast({
           title: "Session Expired",
+          duration: 5000,
           description: "Please login again.",
           variant: "destructive",
         });

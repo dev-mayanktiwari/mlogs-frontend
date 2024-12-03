@@ -42,6 +42,12 @@ export const postGuestbook = async (message: string) => {
   const response = await api.post("user/blog/guestbook", { message });
   return response.data;
 };
+
+export const changePassword = async (oldPassword: string, newPassword: string, confirmNewPassword: string) => {
+  const response = await api.put("user/auth/change-password", { oldPassword, newPassword, confirmNewPassword });
+  return response.data;
+}
+
 export const register = async (
   name: string,
   email: string,
