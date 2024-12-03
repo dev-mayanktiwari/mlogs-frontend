@@ -14,6 +14,7 @@ const useUpdateComment = () => {
       await deleteCommentAPI(commentId);
       toast({
         title: "Success",
+        duration: 5000,
         description: "Comment delete successfully.",
         variant: "default",
       });
