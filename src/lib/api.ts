@@ -43,15 +43,24 @@ export const postGuestbook = async (message: string) => {
   return response.data;
 };
 
-export const changePassword = async (oldPassword: string, newPassword: string, confirmNewPassword: string) => {
-  const response = await api.put("user/auth/change-password", { oldPassword, newPassword, confirmNewPassword });
+export const changePassword = async (
+  oldPassword: string,
+  newPassword: string,
+  confirmNewPassword: string
+) => {
+  const response = await api.put("user/auth/change-password", {
+    oldPassword,
+    newPassword,
+    confirmNewPassword,
+  });
   return response.data;
-}
+};
 
 export const forgotPassword = async (email: string) => {
   const response = await api.put("user/auth/forgot-password", { email });
   return response.data;
-}
+};
+
 export const register = async (
   name: string,
   email: string,
@@ -65,4 +74,11 @@ export const register = async (
     username,
   });
   return response.data.data;
+};
+
+export const resetPassword = async (token: string, password: string) => {
+  const response = await api.put(`user/auth/reset-password/${token}`, {
+    password,
+  });
+  return response.data;
 };
