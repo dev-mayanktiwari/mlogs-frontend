@@ -6,7 +6,7 @@ const useGetBlogByID = (id: string) => {
     revalidateIfStale: false,
     dedupingInterval: 60 * 60 * 1000,
   });
-
+  
   return {
     post: data,
     error,

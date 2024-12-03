@@ -14,6 +14,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Helmet } from "react-helmet-async";
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -25,8 +26,8 @@ export default function LoginPage() {
     setIsLoading(true);
     try {
       const { user } = await login(email, password);
-      console.log(user);
       setUser(user);
+
       toast({
         title: "Success",
         duration: 5000,
@@ -49,31 +50,58 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-background">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">
-            Welcome Back
-          </CardTitle>
-          <CardDescription className="text-center">
-            Log in to your account to continue
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Login onLogin={handleLogin} isLoading={isLoading} />
-          <Link to="/forgot-password" className="text-sm text-muted-foreground pt-5">
-            Forgot password?
-          </Link>
-        </CardContent>
-        <CardFooter className="flex flex-col items-center gap-4">
-          <p className="text-sm text-muted-foreground">
-            Don&apos;t have an account?
-          </p>
-          <Button variant="outline" asChild className="w-full">
-            <Link to="/register">Create an account</Link>
-          </Button>
-        </CardFooter>
-      </Card>
-    </div>
+    <>
+      <Helmet>
+        <title>Login - MLOGS</title>
+        <meta
+          name="description"
+          content="Log in to your MLOGS account to explore inspiring blogs, ideas, and stories. Stay connected with the creative community."
+        />
+        <meta
+          name="keywords"
+          content="MLOGS, login, access blogs, blogging platform, user account"
+        />
+        <meta property="og:title" content="Login - MLOGS" />
+        <meta
+          property="og:description"
+          content="Log in to your MLOGS account to access blogs, stories, and creative ideas shared by a passionate community."
+        />
+        <meta
+          property="og:url"
+          content="https://mlogs.mayanktiwari.tech/login"
+        />
+        <link rel="canonical" href="/login" />
+      </Helmet>
+
+      <div className="min-h-screen flex items-center justify-center p-4 bg-background">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold text-center">
+              Welcome Back
+            </CardTitle>
+            <CardDescription className="text-center">
+              Log in to your account to continue
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Login onLogin={handleLogin} isLoading={isLoading} />
+            <Link
+              to="/forgot-password"
+              className="text-sm text-muted-foreground pt-5"
+            >
+              Forgot password?
+            </Link>
+          </CardContent>
+          <CardFooter className="flex flex-col items-center gap-4">
+            <p className="text-sm text-muted-foreground">
+              Don&apos;t have an account?
+            </p>
+            <Button variant="outline" asChild className="w-full">
+              <Link to="/register">Create an account</Link>
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
+    </>
   );
 }

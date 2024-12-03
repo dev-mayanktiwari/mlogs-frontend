@@ -3,14 +3,18 @@ import CommentSection from "@/components/comment/CommentSection";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
-import useGetBlogByID from "@/hooks/useGetBlogByID";
 
 interface PostPageClientProps {
-  postId: string;
+  post: any;
+  error: any;
+  isLoading: boolean;
 }
 
-export default function PostPageClient({ postId }: PostPageClientProps) {
-  const { post, error, isLoading } = useGetBlogByID(postId);
+export default function PostPageClient({
+  post,
+  error,
+  isLoading,
+}: PostPageClientProps) {
   if (isLoading) {
     return (
       <div className="container mx-auto px-4 py-8">
@@ -55,7 +59,7 @@ export default function PostPageClient({ postId }: PostPageClientProps) {
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-3xl mx-auto">
         <PostContent post={post.blog} />
-        <CommentSection postId={postId} />
+        <CommentSection postId={post.blog?.postId} />
       </div>
     </div>
   );
