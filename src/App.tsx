@@ -10,6 +10,7 @@ import Profile from "./pages/Profile";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./components/notfound/NotFound";
+import AccountConfirmation from "./pages/AccountConfirmation";
 
 function App() {
   const user = useUserStore((state) => state.user);
@@ -36,7 +37,8 @@ function App() {
           path="/reset-password/:token"
           element={user ? <Navigate to={"/"} /> : <ResetPassword />}
         />
-        <Route path="*" element={<NotFound/>} />
+        <Route path="/verify/:token" element={<AccountConfirmation />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Layout>
   );
