@@ -83,6 +83,25 @@ api.interceptors.response.use(
       }
     }
 
+    if (error.code === "ECONNABORTED" && error.message.includes("timeout")) {
+      // Toast for timeout errors
+      toast({
+        title: "Request Timeout",
+        description: "The request took too long to complete. Please try again.",
+        variant: "destructive",
+        duration: 5000,
+      });
+    } else {
+      // General toast for all Axios errors
+      toast({
+        title: "Error",
+        description:
+          error.response?.data?.message || error.message || "An error occurred",
+        variant: "destructive",
+        duration: 5000,
+      });
+    }
+
     // Reject all other errors
     return Promise.reject(error);
   }

@@ -54,10 +54,7 @@ export const Profile = () => {
         <CardHeader>
           <div className="flex items-center space-x-4">
             <Avatar className="h-20 w-20">
-              <AvatarImage
-                src={`tt`}
-                alt={name}
-              />
+              <AvatarImage src={`tt`} alt={name} />
               <AvatarFallback className="object-fill">{name[0]}</AvatarFallback>
             </Avatar>
             <div>
@@ -118,15 +115,30 @@ export const Profile = () => {
         </TabsList>
         <TabsContent value="saved">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {savedPosts.map((saved) => (
-              <PostCard key={saved.postId} post={saved.post} />
-            ))}
+            {savedPosts.map(
+              (saved) => (
+                console.log(saved),
+                (
+                  <PostCard
+                    key={saved.postId}
+                    post={saved.post}
+                    likes={saved.post?.likes?.length}
+                    comments={saved.post?.comments?.length}
+                  />
+                )
+              )
+            )}
           </div>
         </TabsContent>
         <TabsContent value="liked">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {likedPosts.map((liked) => (
-              <PostCard key={liked.postId} post={liked.post} />
+              <PostCard
+                key={liked.postId}
+                post={liked.post}
+                likes={liked.post?.likes?.length}
+                comments={liked.post?.comments?.length}
+              />
             ))}
           </div>
         </TabsContent>
