@@ -14,6 +14,7 @@ const usePostComment = () => {
       const newComment = await postCommentAPI(postId, text);
       toast({
         title: "Success",
+        duration: 5000,
         description: "Comment posted successfully.",
         variant: "default",
       });
@@ -22,6 +23,7 @@ const usePostComment = () => {
       setError(err);
       toast({
         title: "Error",
+        duration: 5000,
         description: "Failed to post comment. Please try again.",
         variant: "destructive",
       });
