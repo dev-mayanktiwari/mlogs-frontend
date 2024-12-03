@@ -31,6 +31,7 @@ export default function PostContent({ post }: PostContentProps) {
     if (!user) {
       toast({
         title: "Error",
+        duration: 5000,
         description: "Please login to like posts.",
         variant: "destructive",
       });
@@ -55,6 +56,7 @@ export default function PostContent({ post }: PostContentProps) {
     } catch (error) {
       toast({
         title: "Error",
+        duration: 5000,
         description: "Failed to update like status. Please try again.",
         variant: "destructive",
       });
@@ -65,6 +67,7 @@ export default function PostContent({ post }: PostContentProps) {
     navigator.clipboard.writeText(window.location.href);
     toast({
       title: "Success",
+      duration: 5000,
       description: "Link copied to clipboard!",
       variant: "default",
     });
@@ -75,7 +78,7 @@ export default function PostContent({ post }: PostContentProps) {
       <CardHeader className="space-y-4">
         <div className="flex items-center space-x-4">
           <Avatar>
-            <AvatarImage src={"/public/profile.jpg"} alt={post.authorName} />
+            <AvatarImage src={"/profile.jpg"} alt={post.authorName} />
             <AvatarFallback>
               <User className="w-4 h-4" />
             </AvatarFallback>
