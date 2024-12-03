@@ -14,6 +14,7 @@ const useUpdateComment = () => {
       const newComment = await updateCommentAPI(commentId, text);
       toast({
         title: "Success",
+        duration: 5000,
         description: "Comment updated successfully.",
         variant: "default",
       });
@@ -25,6 +26,7 @@ const useUpdateComment = () => {
 
       toast({
         title: "Error",
+        duration: 5000,
         description: errorMessage,
         variant: "destructive",
       });
