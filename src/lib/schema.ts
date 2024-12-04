@@ -1,10 +1,9 @@
-import { z } from "zod";
-
 import {
   EUserTypeConstants,
   MAX_LENGTH_MESSAGE,
   MIN_LENGTH_MESSAGE,
 } from "@/constants/UserConstants";
+import { z } from "zod";
 
 export const registerUserSchema = z.object({
   name: z
@@ -37,6 +36,45 @@ export const registerUserSchema = z.object({
     ),
   password: z
     .string()
+    .trim()
+    .min(
+      EUserTypeConstants.MIN_PASSWORD_LENGTH,
+      MIN_LENGTH_MESSAGE("Password", EUserTypeConstants.MIN_PASSWORD_LENGTH)
+    )
+    .max(
+      EUserTypeConstants.MAX_PASSWORD_LENGTH,
+      MAX_LENGTH_MESSAGE("Password", EUserTypeConstants.MAX_PASSWORD_LENGTH)
+    )
+    .regex(/(?=.*[A-Z])/, "Password must contain at least one uppercase letter")
+    .regex(
+      /(?=.*[!@#$%^&*(),.?":{}|<>])/,
+      "Password must contain at least one special character"
+    ),
+});
+
+export const loginUserSchema = z.object({
+  email: z.string().trim(),
+  password: z
+    .string()
+    .trim()
+    .min(
+      EUserTypeConstants.MIN_PASSWORD_LENGTH,
+      MIN_LENGTH_MESSAGE("Password", EUserTypeConstants.MIN_PASSWORD_LENGTH)
+    )
+    .max(
+      EUserTypeConstants.MAX_PASSWORD_LENGTH,
+      MAX_LENGTH_MESSAGE("Password", EUserTypeConstants.MAX_PASSWORD_LENGTH)
+    ),
+});
+
+export const forgotPasswordSchema = z.object({
+  email: z.string().trim().email(),
+});
+
+export const resetPasswordSchema = z.object({
+  newPassword: z
+    .string()
+    .trim()
     .min(
       EUserTypeConstants.MIN_PASSWORD_LENGTH,
       MIN_LENGTH_MESSAGE("Password", EUserTypeConstants.MIN_PASSWORD_LENGTH)
@@ -64,15 +102,8 @@ export const changePasswordSchema = z
       .max(
         EUserTypeConstants.MAX_PASSWORD_LENGTH,
         MAX_LENGTH_MESSAGE("Password", EUserTypeConstants.MAX_PASSWORD_LENGTH)
-      )
-      .regex(
-        /(?=.*[A-Z])/,
-        "Password must contain at least one uppercase letter"
-      )
-      .regex(
-        /(?=.*[!@#$%^&*(),.?":{}|<>])/,
-        "Password must contain at least one special character"
       ),
+
     newPassword: z
       .string()
       .trim()
@@ -99,21 +130,18 @@ export const changePasswordSchema = z
     message: "Passwords do not match",
   });
 
-export const resetPasswordSchema = z.object({
-  newPassword: z
+export const guestBookSchema = z.object({
+  message: z
     .string()
-    .trim()
     .min(
-      EUserTypeConstants.MIN_PASSWORD_LENGTH,
-      MIN_LENGTH_MESSAGE("Password", EUserTypeConstants.MIN_PASSWORD_LENGTH)
+      EUserTypeConstants.MIN_MESSAGE_LENGTH,
+      MIN_LENGTH_MESSAGE("Message", EUserTypeConstants.MIN_MESSAGE_LENGTH)
     )
     .max(
-      EUserTypeConstants.MAX_PASSWORD_LENGTH,
-      MAX_LENGTH_MESSAGE("Password", EUserTypeConstants.MAX_PASSWORD_LENGTH)
-    )
-    .regex(/(?=.*[A-Z])/, "Password must contain at least one uppercase letter")
-    .regex(
-      /(?=.*[!@#$%^&*(),.?":{}|<>])/,
-      "Password must contain at least one special character"
+      EUserTypeConstants.MAX_MESSAGE_LENGTH,
+      MAX_LENGTH_MESSAGE(
+        "Message",
+        EUserTypeConstants.MAX_MESSAGE_LENGTH
+      ).trim()
     ),
 });
