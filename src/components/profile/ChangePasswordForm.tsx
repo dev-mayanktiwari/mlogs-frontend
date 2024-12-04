@@ -1,77 +1,103 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import useChangePassword from "@/hooks/useChangePassword";
+import { changePasswordSchema } from "@/lib/schema";
 
 interface ChangePasswordFormProps {
   onCancel: () => void;
 }
 
+type FormValues = {
+  oldPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+};
+
 export const ChangePasswordForm: React.FC<ChangePasswordFormProps> = ({
   onCancel,
 }) => {
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const { changePassword, loading } = useChangePassword();
+  const form = useForm<FormValues>({
+    resolver: zodResolver(changePasswordSchema),
+    defaultValues: {
+      oldPassword: "",
+      newPassword: "",
+      confirmNewPassword: "",
+    },
+  });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (newPassword !== confirmNewPassword) {
-      alert("New passwords do not match");
-      return;
-    }
+  const onSubmit = async (data: FormValues) => {
     const result = await changePassword(
-      oldPassword,
-      newPassword,
-      confirmNewPassword
+      data.oldPassword,
+      data.newPassword,
+      data.confirmNewPassword
     );
     if (result) {
-      onCancel(); // Close the form on success
+      onCancel();
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <Label htmlFor="old-password">Current Password</Label>
-        <Input
-          id="old-password"
-          type="password"
-          value={oldPassword}
-          onChange={(e) => setOldPassword(e.target.value)}
-          required
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="oldPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Current Password</FormLabel>
+              <FormControl>
+                <Input type="password" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
-      <div>
-        <Label htmlFor="new-password">New Password</Label>
-        <Input
-          id="new-password"
-          type="password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          required
+        <FormField
+          control={form.control}
+          name="newPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>New Password</FormLabel>
+              <FormControl>
+                <Input type="password" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
-      <div>
-        <Label htmlFor="confirm-new-password">Confirm New Password</Label>
-        <Input
-          id="confirm-new-password"
-          type="password"
-          value={confirmNewPassword}
-          onChange={(e) => setConfirmNewPassword(e.target.value)}
-          required
+        <FormField
+          control={form.control}
+          name="confirmNewPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Confirm New Password</FormLabel>
+              <FormControl>
+                <Input type="password" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
-      <div className="flex space-x-2">
-        <Button type="submit" disabled={loading}>
-          {loading ? "Changing..." : "Change Password"}
-        </Button>
-        <Button type="button" variant="outline" onClick={onCancel}>
-          Cancel
-        </Button>
-      </div>
-    </form>
+        <div className="flex space-x-2">
+          <Button type="submit" disabled={loading}>
+            {loading ? "Changing..." : "Change Password"}
+          </Button>
+          <Button type="button" variant="outline" onClick={onCancel}>
+            Cancel
+          </Button>
+        </div>
+      </form>
+    </Form>
   );
 };
