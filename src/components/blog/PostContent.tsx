@@ -9,6 +9,7 @@ import { Like, PostType } from "@/lib/types";
 import { useToast } from "@/hooks/use-toast";
 import useLikeBlog from "@/hooks/useLikeBlog";
 import useUnlikeBlog from "@/hooks/useUnlikeBlog";
+import parse from "html-react-parser";
 
 type PostContentProps = {
   post: PostType;
@@ -95,7 +96,9 @@ export default function PostContent({ post }: PostContentProps) {
         <h1 className="text-2xl sm:text-3xl font-bold">{post.title}</h1>
       </CardHeader>
       <CardContent className="space-y-8">
-        <div className="prose dark:prose-invert max-w-none">{post.content}</div>
+        <div className="prose dark:prose-invert max-w-none">
+          {parse(post.content)}
+        </div>
 
         <div className="flex items-center justify-between pt-4 border-t">
           <div className="flex items-center gap-6">
