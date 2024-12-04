@@ -38,8 +38,6 @@ const Register = () => {
         <link rel="canonical" href="/register" />
       </Helmet>
       <Signup onSubmit={handleSubmit} isLoading={loading} />
-
-      <Signup onSubmit={handleSubmit} isLoading={loading} />
     </>
   );
 };
