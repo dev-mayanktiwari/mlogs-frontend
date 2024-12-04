@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { login } from "@/lib/api";
@@ -17,13 +16,11 @@ import { Button } from "@/components/ui/button";
 import { Helmet } from "react-helmet-async";
 
 export default function LoginPage() {
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const setUser = useUserStore((state) => state.setUser);
   const { toast } = useToast();
 
   const handleLogin = async (email: string, password: string) => {
-    setIsLoading(true);
     try {
       const { user } = await login(email, password);
       setUser(user);
@@ -40,12 +37,10 @@ export default function LoginPage() {
         title: "Error",
         duration: 5000,
         description:
-          error.response?.data?.message ||
-          "Failed to logout. Please try again.",
+          error.response?.data?.message || "Failed to login. Please try again.",
         variant: "destructive",
       });
-    } finally {
-      setIsLoading(false);
+      throw error; // Re-throw the error to be handled by the form
     }
   };
 
@@ -84,13 +79,15 @@ export default function LoginPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Login onLogin={handleLogin} isLoading={isLoading} />
-            <Link
-              to="/forgot-password"
-              className="text-sm text-muted-foreground pt-5"
-            >
-              Forgot password?
-            </Link>
+            <Login onLogin={handleLogin} />
+            <div className="mt-4 text-center">
+              <Link
+                to="/forgot-password"
+                className="text-sm text-muted-foreground hover:underline"
+              >
+                Forgot password?
+              </Link>
+            </div>
           </CardContent>
           <CardFooter className="flex flex-col items-center gap-4">
             <p className="text-sm text-muted-foreground">
