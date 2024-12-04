@@ -2,7 +2,7 @@ import { toast } from "@/hooks/use-toast";
 import useLogout from "@/hooks/useLogout";
 import axios from "axios";
 
-const BASEURL = "http://localhost:3000/api/v1";
+const BASEURL = import.meta.env.VITE_API_URL as string;
 
 export const api = axios.create({
   baseURL: BASEURL,

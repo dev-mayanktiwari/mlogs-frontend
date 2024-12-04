@@ -75,9 +75,9 @@ export const register = async (
   return response.data.data;
 };
 
-export const resetPassword = async (token: string, password: string) => {
+export const resetPassword = async (token: string, newPassword: string) => {
   const response = await api.put(`user/auth/reset-password/${token}`, {
-    password,
+    newPassword,
   });
   return response.data;
 };
