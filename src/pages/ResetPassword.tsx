@@ -5,14 +5,12 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
-
-import useResetPassword from "@/hooks/useResetPassword";
 import { ResetPass } from "@/components/auth/ResetPass";
 import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
 export default function ResetPassword() {
-  const { loading, resetPassword } = useResetPassword();
+
   const { token } = useParams<{ token: string }>();
   return (
     <>
@@ -33,7 +31,7 @@ export default function ResetPassword() {
         />
         <meta
           property="og:url"
-          content="https://mlogs.mayanktiwari.tech/forgot-password"
+          content="https://mlogs.mayanktiwari.tech/reset-password"
         />
         <link rel="canonical" href="/reset-password" />
       </Helmet>
@@ -48,11 +46,7 @@ export default function ResetPassword() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ResetPass
-              onResetPass={resetPassword}
-              isLoading={loading}
-              token={token}
-            />
+            <ResetPass token={token} />
           </CardContent>
         </Card>
       </div>
