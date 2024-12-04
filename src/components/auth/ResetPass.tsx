@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
@@ -11,31 +12,43 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useState, useEffect } from "react";
+import useResetPassword from "@/hooks/useResetPassword";
+import { useToast } from "@/hooks/use-toast";
 import { resetPasswordSchema } from "@/lib/schema";
 
+type ResetPasswordFormValues = z.infer<typeof resetPasswordSchema>;
+
 interface ResetPassProps {
-  onResetPass: (token: string, password: string) => Promise<void>;
-  isLoading: boolean;
   token: string | undefined;
 }
 
-type ResetPasswordFormValues = {
-  password: string;
-  confirmPassword: string;
-};
+export function ResetPass({ token }: ResetPassProps) {
+  const [formError, setFormError] = useState<string | null>(null);
+  const { loading: isLoading, resetPassword: onResetPass } = useResetPassword();
 
-export function ResetPass({ onResetPass, isLoading, token }: ResetPassProps) {
   const form = useForm<ResetPasswordFormValues>({
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
-      password: "",
-      confirmPassword: "",
+      newPassword: "",
     },
   });
 
-  const onSubmit = (data: ResetPasswordFormValues) => {
-    if (token) {
-      onResetPass(token, data.password);
+  const onSubmit = async (data: ResetPasswordFormValues) => {
+    setFormError(null);
+    if (!token) {
+      setFormError("Invalid or missing reset token. Please try again.");
+      return;
+    }
+
+    try {
+      await onResetPass(token, data.newPassword);
+      form.reset();
+    } catch (error) {
+      console.error("Error resetting password:", error);
+      setFormError(
+        "An error occurred while resetting your password. Please try again."
+      );
     }
   };
 
@@ -44,33 +57,34 @@ export function ResetPass({ onResetPass, isLoading, token }: ResetPassProps) {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
-          name="password"
+          name="newPassword"
           render={({ field }) => (
             <FormItem>
               <FormLabel>New Password</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="********" {...field} />
+                <Input
+                  type="password"
+                  placeholder="********"
+                  autoComplete="new-password"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="confirmPassword"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Confirm New Password</FormLabel>
-              <FormControl>
-                <Input type="password" placeholder="********" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+        {formError && <div className="text-red-500 text-sm">{formError}</div>}
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={isLoading || form.formState.isSubmitting}
+        >
+          {(isLoading || form.formState.isSubmitting) && (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           )}
-        />
-        <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          {isLoading ? "Please Wait..." : "Reset Password"}
+          {isLoading || form.formState.isSubmitting
+            ? "Please Wait..."
+            : "Reset Password"}
         </Button>
       </form>
     </Form>
