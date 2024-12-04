@@ -17,19 +17,14 @@ import * as z from "zod";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormMessage,
 } from "../ui/form";
+import { registerUserSchema } from "@/lib/schema";
 
-const signupSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  username: z.string().min(3, "Username must be at least 3 characters"),
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-});
-
-type SignupFormValues = z.infer<typeof signupSchema>;
+type SignupFormValues = z.infer<typeof registerUserSchema>;
 
 interface SignupProps {
   onSubmit: (data: SignupFormValues) => Promise<void>;
@@ -38,7 +33,7 @@ interface SignupProps {
 
 const Signup = ({ onSubmit, isLoading }: SignupProps) => {
   const form = useForm<SignupFormValues>({
-    resolver: zodResolver(signupSchema),
+    resolver: zodResolver(registerUserSchema),
     defaultValues: {
       name: "",
       username: "",
@@ -48,6 +43,10 @@ const Signup = ({ onSubmit, isLoading }: SignupProps) => {
   });
 
   const handleSubmit = (data: SignupFormValues) => {
+    const parsed = registerUserSchema.safeParse(data);
+    if (!parsed.success) {
+      return;
+    }
     onSubmit(data);
   };
 
@@ -59,8 +58,7 @@ const Signup = ({ onSubmit, isLoading }: SignupProps) => {
             Create an Account
           </CardTitle>
           <CardDescription className="text-center">
-            Enter your details below to create your account and start sharing
-            your stories
+            Enter your details below to create your account
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -86,6 +84,9 @@ const Signup = ({ onSubmit, isLoading }: SignupProps) => {
                         />
                       </div>
                     </FormControl>
+                    <FormDescription>
+                      Your name will be displayed on your profile.
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -107,6 +108,9 @@ const Signup = ({ onSubmit, isLoading }: SignupProps) => {
                         />
                       </div>
                     </FormControl>
+                    <FormDescription>
+                      Username can only contain letters and underscores.
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -129,6 +133,10 @@ const Signup = ({ onSubmit, isLoading }: SignupProps) => {
                         />
                       </div>
                     </FormControl>
+                    <FormDescription>
+                      Email address will be used for account confirmation and
+                      recovery.
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -151,6 +159,13 @@ const Signup = ({ onSubmit, isLoading }: SignupProps) => {
                         />
                       </div>
                     </FormControl>
+                    <FormDescription>
+                      <ul className="list-disc pl-5">
+                        <li>Password must be at least 8 characters long.</li>
+                        <li>Password must contain one uppercase letter.</li>
+                        <li>Password must contain one special character.</li>
+                      </ul>
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
