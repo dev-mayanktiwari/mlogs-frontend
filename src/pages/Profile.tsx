@@ -112,7 +112,7 @@ export const Profile = () => {
               <div>
                 <p className="font-semibold">Last Password Reset:</p>
                 <p className="text-muted-foreground">
-                  {passwordRecovery.lastResetAt
+                  {passwordRecovery?.lastResetAt
                     ? formatDistanceToNow(
                         new Date(passwordRecovery.lastResetAt),
                         { addSuffix: true }
