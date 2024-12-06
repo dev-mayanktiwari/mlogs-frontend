@@ -12,9 +12,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import useResetPassword from "@/hooks/useResetPassword";
-import { useToast } from "@/hooks/use-toast";
 import { resetPasswordSchema } from "@/lib/schema";
 
 type ResetPasswordFormValues = z.infer<typeof resetPasswordSchema>;
