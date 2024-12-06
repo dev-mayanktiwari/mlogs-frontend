@@ -1,5 +1,4 @@
 import BlogList from "@/components/blog/PostsList";
-import useGetBlogByID from "@/hooks/useGetBlogByID";
 import { Helmet } from "react-helmet-async";
 
 const Home = () => {

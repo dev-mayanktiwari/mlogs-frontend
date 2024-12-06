@@ -15,15 +15,19 @@ export const api = axios.create({
 
 // Variables to handle refresh logic
 let isRefreshing = false;
+
+// @ts-expect-error: refreshSubscribers is not typed
 let refreshSubscribers = [];
 
 // Add a subscriber for token refresh
+// @ts-expect-error: subscribeToTokenRefresh is not typed
 const subscribeToTokenRefresh = (callback) => {
   refreshSubscribers.push(callback);
 };
 
 // Notify all subscribers once the token has been refreshed
 const onTokenRefreshed = () => {
+  // @ts-expect-error: refreshSubscribers is not typed
   refreshSubscribers.forEach((callback) => callback());
   refreshSubscribers = [];
 };
@@ -44,7 +48,7 @@ api.interceptors.response.use(
 
       if (isRefreshing) {
         // If a refresh is already in progress, wait for it
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
           subscribeToTokenRefresh(() => {
             resolve(api(originalRequest)); // Retry the original request
           });
