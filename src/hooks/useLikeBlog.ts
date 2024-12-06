@@ -14,7 +14,7 @@ const useLikeBlog = () => {
       await likePost(postId);
       toast({
         title: "Success",
-        description: "Comment posted successfully.",
+        description: "Post liked successfully.",
         variant: "default",
       });
     } catch (err: any) {
