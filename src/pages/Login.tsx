@@ -37,7 +37,7 @@ export default function LoginPage() {
         title: "Error",
         duration: 5000,
         description:
-          error.response?.data?.message || "Failed to login. Please try again.",
+          error.response?.data?.message || "Failed to login. Please try again later.",
         variant: "destructive",
       });
       throw error; // Re-throw the error to be handled by the form
