@@ -37,7 +37,7 @@ export const PostCard: React.FC<PostCardProps> = ({
         </p>
       </CardHeader>
       <CardContent>
-        <p className="text-muted-foreground line-clamp-3">{post.content}</p>
+        <p className="text-muted-foreground line-clamp-3">{post.headline}</p>
       </CardContent>
       <CardFooter className="flex justify-between text-sm text-muted-foreground">
         <span>By {post.authorName}</span>
