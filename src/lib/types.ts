@@ -48,3 +48,13 @@ export type PostType = {
   comments: SComment[];
   savedByUsers: Saved[];
 };
+
+export interface Post {
+  postId: number;
+  title: string;
+  headline: string;
+  content: string;
+  createdAt: string;
+  likes: [];
+  comments: [];
+}

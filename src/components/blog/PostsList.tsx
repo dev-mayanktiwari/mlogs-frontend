@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { MessageCircle, ThumbsUp, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Post } from "@/lib/types";
 
 export default function BlogList() {
   const { posts, isLoading, error } = useGetBlogs();
@@ -59,7 +60,7 @@ export default function BlogList() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {blogs.map((post) => (
+      {blogs.map((post: Post) => (
         <Link to={`/post/${post.postId}`} key={post.postId}>
           <Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
             <CardHeader className="space-y-2">
@@ -72,7 +73,7 @@ export default function BlogList() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground line-clamp-3">
-                {post.content}
+                {post.headline}
               </p>
             </CardContent>
             <CardFooter className="flex justify-start text-sm text-muted-foreground">

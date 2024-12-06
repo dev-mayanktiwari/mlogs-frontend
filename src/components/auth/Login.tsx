@@ -48,9 +48,9 @@ export function Login({ onLogin }: LoginProps) {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Email or Username</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your email" {...field} />
+                <Input placeholder="Enter your email or username" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
