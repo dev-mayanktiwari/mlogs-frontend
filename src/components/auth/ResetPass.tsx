@@ -44,7 +44,6 @@ export function ResetPass({ token }: ResetPassProps) {
       await onResetPass(token, data.newPassword);
       form.reset();
     } catch (error) {
-      console.error("Error resetting password:", error);
       setFormError(
         "An error occurred while resetting your password. Please try again."
       );

@@ -36,7 +36,6 @@ export function Login({ onLogin }: LoginProps) {
       await onLogin(data.email, data.password);
     } catch (error) {
       // Error is already handled by the parent component
-      console.error("Login failed:", error);
     }
   };
 

@@ -41,7 +41,7 @@ api.interceptors.response.use(
     // Check if the error is 401 (Unauthorized) and not already retried
     if (
       error.response?.status === 401 &&
-      error.response?.message === "No token found" &&
+      error.response?.data.message === "No token found." &&
       !originalRequest._retry
     ) {
       originalRequest._retry = true; // Mark this request as retried
@@ -101,6 +101,7 @@ api.interceptors.response.use(
       });
     } else {
       // General toast for all Axios errors
+
       toast({
         title: "Error",
         description:
