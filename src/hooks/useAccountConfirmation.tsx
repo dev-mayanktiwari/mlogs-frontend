@@ -41,7 +41,8 @@ const useAccountConfirmation = () => {
     } catch (err: any) {
       setError(err);
       const errorMessage =
-        err.message || "Failed to verify account. Please try again.";
+        err.response?.data?.message ||
+        "Failed to verify account. Please try again.";
       toast({
         title: "Error",
         description: errorMessage,
